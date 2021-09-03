@@ -1,0 +1,35 @@
+__rdtsc()
+
+real	0m0,086s
+user	0m0,086s
+sys	    0m0,000s
+
+Gj.s.: 8.6 ns
+Typ.: 20 ns
+Shortest: 18 ns
+
+
+clock_gettime()
+
+real	0m0,225s
+user	0m0,221s
+sys	    0m0,004s
+
+Gj.s.: 22.5 ns
+Typ.: 21 ns
+Shortest: 18 ns
+
+
+times()
+
+real	0m4,256s
+user	0m1,149s
+sys	    0m3,106s
+
+Gj.s.: 425.6 ns
+
+
+Context switch
+Gj.s.: Ca. 500 ns
+Samme størelsesorden som times(), som jo er en context switch.
+times er et systemkall.
