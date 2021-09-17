@@ -1,0 +1,33 @@
+TASK A:
+- The response times are generally pretty low, but the worst-case response times are a lot higher than the average.
+
+
+TASK B:
+- The test with only the A test has much less variance in response time compared to the A+B+C test.
+
+- The test with only the A test has the lowest maximum. This is becuase of the delay when giving responses to the test signals for the A+B+C test. 
+Depending on where the program currently is when the test signals are set, the last response is going to be slower than what it would have been for only a single test.
+
+- The responses for A, B and C look similar. We cannot identify a pattern in the difference between them. That is because the program can be anywhere in the while loop when
+the pins is set. So the averages of the diffrent test will be the same.
+
+
+TASK C:
+- Compared to the polling response times, the response time with interrupts has practially zero variance, meaning that the worst-case response times 
+are very close to the average. The worst-case response times are also shorter when using interrupts. What causes the high worst-case response times when busy waiting?
+The only difference in the routines is the use of gpio_pin_is_low() instead of gpio_get_pin_interrupt_flag().
+
+- A, B and C have different response times. This is becuase of the order the interrupt flags are checked inside the interrupt handler, which is common for all
+three input signal pins. Becuase the input signals are pulled low simultaneously, the A test will (in our case) always be responded to first, then B, and lastly C.
+If we had three different interrupt handler routines with the same priority, we would expect more variance, but also similar averages for the different tests.
+
+
+TASK D:
+- We observe that the interrupts introduce some delay. The Big while with fast B has a similar response distribution to busy waiting, but with some extra delay
+introduced by the interrupts.
+
+- The deferred technique is slower than the immediate processing in interrupts. This is because the immediate processing happens immediately, as interrupts 
+are prioritized over regular program flow.
+
+- In the immediate processing in interrupts, only the tests after B (in our case C) were affected by the expensive delay. However, it was affected every time.
+Using the deferred technique, both A and C are affected, but in a more random fashion. All in all the impact on A and C is pretty similar for the two methods.
