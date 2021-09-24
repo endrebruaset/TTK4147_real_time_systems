@@ -1,0 +1,35 @@
+----- Task A -----
+We would expect less variance when using a scheduler compared to busy waiting in the previous exercise - what is the reason for the variance in this test?
+
+
+----- Task B -----
+By comparing the test results when using VTaskDelay(1) and busy_delay_short(), we see that the worst-case execution time is drastically higher when
+using busy waiting. The variance of the distribution is also higher when busy waiting. The reason for this is that vTaskDelay() forces the scheduler to
+reevaluate which task is running, while switching between the tasks has to be done through timing interrupts when busy waiting. Therefore, it varies how long 
+you are stuck in a finished task before the timer interrupt happens.The worst-case execution time when busy waiting is approximately 2000ms, which means
+that the scheduler has to wait almost two entire ticks.
+
+
+----- Task C -----
+The reason why C doesn't respond shortly after 3ms is because new tests are sent only when all previous tests have been responded to. Therefore, after A and B
+have responded and called vTaskDelay(), all switching between the tasks have to be done through timer interrupts. This causes a lot of delay during the
+call to busy_wait_ms(3), as we have to wait one ms in both task A and B before switching once they are done responding. When using busy_wait_short(), 
+this effect only worsens. A and B are not that affected, as they respond to the test before busy waiting.
+
+We can't give task C a higher priority than A and B, as they would be starved and never get to run as C never voluntarily yields.
+
+
+----- Task D -----
+The response time for A and B are similar to the ones using busy_wait_short(). The response time of C is improved, as most responses now happen within 5ms.
+This is becuase tasks now yield instead of busy waiting we avoid having to wait for timer interrupts to switch from finished tasks. WE can observe 
+that the way we keep the response pin low has minial effect of the response times.
+
+When using equal priority on all tasks, using vTaskDelay(0) to yeild works even better than vTaskDelay(1).
+
+
+----- Task E -----
+Using priority 2 for task A and B gave a better worst-case repsonse time at about 1150 us. Using different priorities for A and B has no effect, as they are 
+only really competing with C to avoid extra waiting. We can observe that using equal priority for all tasks and vTaskDelay(0) gives less variance, 
+but higher worst-case response times.
+
+
