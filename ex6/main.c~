@@ -57,7 +57,7 @@ void respond_to_test(void* args) {
 }
 
 void periodic_respond_to_test(void* args) {
-	RTIME period_ns = 35;
+	RTIME period_ns = 25;
 	rt_task_set_periodic(NULL, TM_NOW, period_ns);
 
 	int channel = *(int*)args;

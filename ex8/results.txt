@@ -1,0 +1,71 @@
+----- Task B -----
+Running with resource: ###
+Running without resource: ---
+Blocked / preempted: ooo
+
+	time units	|	1	2	3	4	5	6	7	8	9	10
+	low			|####oooooooooooooooooooo########	
+	medium		|	 --------------------
+	high		|		 oooooooooooooooooooooooo########
+
+Verified through code output:
+	Broadcasting barrier
+	Low priority trying to allocate resource
+	Low priority task starting work with resource
+	Medium priority task starting work
+	High priority trying to allocate resource
+	Medium priority task finished work
+	Low priority task finished work with resource
+	High priority task starting work with resource
+	High priority task finished work with resource
+
+
+----- Task C -----
+Running with resource: ###
+Running without resource: ---
+Blocked / preempted: ooo
+
+	time units	|	1	2	3	4	5	6	7	8	9	10
+	low			|####oooo########	
+	medium		|	 ----oooooooooooooooo-----------------
+	high		|		 oooooooo########
+
+Verified through code output:
+	Broadcasting barrier
+	Low priority trying to allocate resource
+	Low priority task starting work with resource, current priority is: 10 
+	Medium priority task starting work
+	High priority trying to allocate resource
+	Low priority task finished work with resource, current priority is: 90 
+	High priority task starting work with resource, current priority is: 90 
+	High priority task finished work with resource, current priority is: 90 
+	Medium priority task finished work
+
+
+----- Task E -----
+Code output:
+	Broadcasting barrier
+
+	Low priority task has priority 10 
+	Low priority trying to acquire mutex A
+	Low priority task has priority 51 
+
+	Low priority task has priority 51 
+	Low priority trying to acquire mutex B
+	Low priority task has priority 51 
+
+	Low priority task has priority 51 
+	Low priority releasing mutexes 
+	High priority task has priority 50 
+	High priority trying to acquire mutex B
+	High priority task has priority 51 
+
+	High priority task has priority 51 
+	High priority trying to acquire mutex A
+	High priority task has priority 51 
+
+	High priority task has priority 51 
+	High priority releasing mutexes 
+	High priority task has priority 50 
+
+	Low priority task has priority 10 
